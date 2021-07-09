@@ -4550,3 +4550,92 @@ int32_t NaClSysSigProcMask(struct NaClAppThread *natp, int how, const void *set,
   UNREFERENCED_PARAMETER(oldset);
   return 0;
 }
+
+/*
+Experimental, from service_runtime/lind_syscalls.c need input.
+TODO: Ask Nick/Jonathan about naming convention.
+Find caglar's version of gethostname, does not appear in the pdf commits.
+Preproc handling?
+Pipe-Pipe2?
+*/
+int32_t NaClEpollCreatePreprocess(struct NaClApp *nap, uint32_t inNum, LindArg *inArgs, void** xchangedata)
+{
+    ALLOC_RET_DESC();
+}
+
+int32_t NaClEpollCreatePostprocess(struct NaClApp *nap,
+                               int iserror,
+                               int *code,
+                               char *data,
+                               int len,
+                               void *xchangedata)
+{
+    BUILD_AND_RETURN_NACL_DESC();
+}
+
+int32_t NaClEpollCtlPreprocess(struct NaClApp *nap, uint32_t inNum, LindArg *inArgs, void** xchangedata)
+{
+    CONVERT_NACL_DESC_TO_LIND_START;
+    CONVERT_NACL_DESC_TO_LIND(0);
+    CONVERT_NACL_DESC_TO_LIND(2);
+    CONVERT_NACL_DESC_TO_LIND_END;
+}
+
+typedef union epoll_data
+{
+  void *ptr;
+  int fd;
+  uint32_t u32;
+  uint64_t u64;
+} epoll_data_t;
+
+struct epoll_event
+{
+  uint32_t events;
+  epoll_data_t data;
+};
+
+int32_t NaClEpollWaitPreprocess(struct NaClApp *nap, uint32_t inNum, LindArg *inArgs, void** xchangedata)
+{
+    CONVERT_NACL_DESC_TO_LIND_START;
+    CONVERT_NACL_DESC_TO_LIND(0);
+    CONVERT_NACL_DESC_TO_LIND_END;
+}
+
+int32_t NaClEpollWaitPostprocess(struct NaClApp *nap,
+                             int iserror,
+                             int *code,
+                             char *data,
+                             int len,
+                             void *xchangedata)
+{
+    int retval = 0;
+    int nfds;
+    struct epoll_event *pfds;
+    struct NaClDesc * ndp;
+    int hfd;
+    UNREFERENCED_PARAMETER(nap);
+    UNREFERENCED_PARAMETER(iserror);
+    UNREFERENCED_PARAMETER(code);
+    UNREFERENCED_PARAMETER(len);
+    UNREFERENCED_PARAMETER(xchangedata);
+    nfds=*code;
+    pfds = (struct epoll_event*)data;
+    for(int i=0; i<nfds; ++i) {
+        for(int j=0; j<1024; ++j) {
+            NaClFastMutexLock(&nap->desc_mu);
+            ndp = NaClGetDescMu(nap, j);
+            NaClFastMutexUnlock(&nap->desc_mu);
+            if(!ndp || ndp->base.vtbl != (struct NaClRefCountVtbl const *)&kNaClDescIoDescVtbl) {
+                NaClDescSafeUnref(ndp);
+                continue;
+            }
+            hfd = ((struct NaClDescIoDesc *)ndp)->hd->d;
+            if(pfds[i].data.fd == hfd) {
+                pfds[i].data.fd = j;
+            }
+            NaClDescUnref(ndp);
+        }
+    }
+    return retval;
+}

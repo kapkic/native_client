@@ -86,6 +86,11 @@
 #define LIND_safe_fs_flock              54
 #define LIND_safe_fs_rename             55
 
+//EXPERIMENTAL: from lind_syscalls.h
+#define LIND_safe_net_epoll_create      56
+#define LIND_safe_net_epoll_ctl         57
+#define LIND_safe_net_epoll_wait        58
+
 #define LIND_safe_fs_pipe               66
 #define LIND_safe_fs_pipe2              67
 #define LIND_safe_fs_fork               68
@@ -161,5 +166,12 @@ int lind_getpid(int cageid);
 int lind_getppid(int cageid);
 int lind_exec(int newcageid, int cageid);
 void lind_exit(int status, int cageid);
+
+//EXPERIMENTAL: from lind_syscalls.h
+int lind_epoll_create (int size);
+int lind_epoll_ctl (int epfd, int op, int fd, struct epoll_event *event);
+int lind_epoll_wait(int epfd, struct epoll_event *events,
+                      int maxevents, int timeout);
+                      //
 
 #endif /* LIND_PLATFORM_H_ */

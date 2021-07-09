@@ -786,3 +786,44 @@ void lind_exit(int status, int cageid)
     LIND_API_PART2;
     LIND_API_PART3;
 }
+
+// EXPERIMENTAL
+
+int lind_epoll_create (int size)
+{
+ /*   LindArg in_args[1] = {{AT_INT, (uintptr_t)size, 0}};
+    return NACL_SYSCALL(lind_api)(LIND_safe_net_epoll_create, 1, in_args, 0, NULL);*/
+	
+	LIND_API_PART1;
+    callArgs = Py_BuildValue("(i[i])", LIND_safe_epoll_create, size);
+    LIND_API_PART2;
+    LIND_API_PART3;
+}
+
+int lind_epoll_ctl (int epfd, int op, int fd, struct epoll_event *event)
+{
+    /*LindArg in_args[4] = {{AT_INT, epfd, 0}, {AT_INT, op, 0},
+        {AT_INT, fd, 0}, {AT_DATA, (uintptr_t)event, sizeof(struct epoll_event)}};
+    return NACL_SYSCALL(lind_api)(LIND_safe_net_epoll_ctl, 4, in_args, 0, NULL);*/
+	
+	LIND_API_PART1;
+    callArgs = Py_BuildValue("(i[iii])", LIND_safe_epoll_ctl, epfd, op, fd, ?); //needs checking
+    LIND_API_PART2;
+    LIND_API_PART3;
+}
+
+int lind_epoll_wait(int epfd, struct epoll_event *events,
+                      int maxevents, int timeout)
+{
+/*    LindArg in_args[3] = {{AT_INT, epfd, 0}, {AT_INT, maxevents, 0},
+        {AT_INT, timeout, 0}};
+    LindArg out_args[1] = {{AT_DATA, (uintptr_t)events, sizeof(struct epoll_event)*maxevents}};
+    return NACL_SYSCALL(lind_api)(LIND_safe_net_epoll_wait, 3, in_args, 1, out_args);*/
+	
+	LIND_API_PART1;
+    callArgs = Py_BuildValue("(i[iii])", LIND_safe_epoll_ctl, epfd, maxevents, timeout);
+    LIND_API_PART2;
+	COPY_DATA(events, sizeof(struct epoll_event) *event); //Needs checking.
+    LIND_API_PART3;
+	
+}

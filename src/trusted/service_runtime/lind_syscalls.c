@@ -472,6 +472,7 @@ int LindCommonPreprocess(struct NaClApp *nap, uint32_t inNum, LindArg *inArgs, v
     CONVERT_NACL_DESC_TO_LIND_END;
 }
 
+//Should this be deleted, since moved into nacl_syscall_common?
 int LindEpollCreatePreprocess(struct NaClApp *nap, uint32_t inNum, LindArg *inArgs, void** xchangedata)
 {
     ALLOC_RET_DESC();

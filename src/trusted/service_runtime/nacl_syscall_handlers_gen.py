@@ -264,6 +264,13 @@ SYSCALL_LIST = [
     ('NACL_sys_wait4', 'NaClSysWait4', ['int pid', 'uint32_t *stat_loc', 'int options', 'void *rusage']),
     ('NACL_sys_sigprocmask', 'NaClSysSigProcMask', ['int how', 'const void *set', 'void *oldset']),
     ('NACL_sys_lstat', 'NaClSysLStat', ['const char *path', 'struct nacl_abi_stat *nasp']),
+    #EXPERIMENTAL
+    ('NACL_sys_epoll_create', 'NaClEpollCreatePreprocess', ['struct NaClApp *nap', 'uint32_t inNum', 'LindArg *inArgs', 'void** xchangedata']),
+    ('NACL_sys_epoll_create2', 'NaClEpollCreatePostprocess', ['struct NaClApp *nap', 'int iserror', 'int *code', 'char *data', 'int len', 'void *xchangedata']),
+    ('NACL_sys_epoll_ctl', 'NaClEpollCtlPreprocess', ['struct NaClApp *nap', 'uint32_t inNum', 'LindArg *inArgs', 'void** xchangedata']),
+    ('NACL_sys_epoll_wait', 'NaClEpollWaitPreprocess', ['struct NaClApp *nap', 'uint32_t inNum', 'LindArg *inArgs', 'void** xchangedata']),
+    ('NACL_sys_epoll_wait2', 'NaClEpollWaitPostprocess', ['struct NaClApp *nap', 'int iserror', 'int *code', 'char *data', 'int len', 'void *xchangedata']),
+    #EXPERIMENTAL
     ]
 
 

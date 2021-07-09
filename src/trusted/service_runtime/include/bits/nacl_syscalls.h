@@ -63,6 +63,12 @@
 
 /* 50-58 previously used for multimedia syscalls */
 
+//Experimental
+#define NACL_sys_epoll_create           56    
+#define NACL_sys_epoll_ctl              57
+#define NACL_sys_epoll_wait             58
+//Experimental
+
 #define NACL_sys_imc_makeboundsock      60
 #define NACL_sys_imc_accept             61
 #define NACL_sys_imc_connect            62
