@@ -4639,3 +4639,16 @@ int32_t NaClEpollWaitPostprocess(struct NaClApp *nap,
     }
     return retval;
 }
+
+int32_t NaClSysSocket(struct NaClApp *nap, uint32_t inNum, LindArg *inArgs, void** xchangedata)
+{
+    ALLOC_RET_DESC();
+
+                          int iserror,
+                          int *code,
+                          char *data,
+                          int len,
+                          void *xchangedata)
+
+    BUILD_AND_RETURN_NACL_DESC();
+}

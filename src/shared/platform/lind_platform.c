@@ -480,7 +480,7 @@ int lind_fcntl_set (int fd, int cmd, long set_op)
     LIND_API_PART3;
 }
 
-int lind_socket (int domain, int type, int protocol)
+int lind_socket (int domain, int type, int protocol) //Exists already, nothing changed.
 {
     LIND_API_PART1;
     callArgs = Py_BuildValue("(i[iii])", LIND_safe_net_socket, domain, type, protocol);

@@ -61,7 +61,7 @@
 #define LIND_safe_sys_exit              30
 #define LIND_safe_sys_getpid            31
 
-#define LIND_safe_net_socket            32
+#define LIND_safe_net_socket            32 //Already exists.
 #define LIND_safe_net_bind              33
 #define LIND_safe_net_send              34
 #define LIND_safe_net_sendto            35
