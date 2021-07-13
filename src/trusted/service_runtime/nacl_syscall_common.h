@@ -356,6 +356,9 @@ int32_t NaClEpollWaitPostprocess(struct NaClApp *nap,
                              int len,
                              void *xchangedata);
 
+
+int32_t NaClSysSocket(struct NaClApp *nap, uint32_t inNum, LindArg *inArgs, void** xchangedata);
+
 EXTERN_C_END
 
 #endif  /* NATIVE_CLIENT_SERVICE_RUNTIME_NACL_SYSCALL_COMMON_H__ */

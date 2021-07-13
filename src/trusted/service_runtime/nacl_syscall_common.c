@@ -4640,15 +4640,49 @@ int32_t NaClEpollWaitPostprocess(struct NaClApp *nap,
     return retval;
 }
 
-int32_t NaClSysSocket(struct NaClApp *nap, uint32_t inNum, LindArg *inArgs, void** xchangedata)
+int32_t NaClSysSocket(struct NaClApp *nap, int domain, int type, int protocol
+uint32_t inNum, LindArg *inArgs, void** xchangedata)
 {
-    ALLOC_RET_DESC();
+  stderr
+  struct NaClApp            *nap = natp->nap;
+  int                       retval = -NACL_ABI_EINVAL;
+  retval = 0;
 
-                          int iserror,
-                          int *code,
-                          char *data,
-                          int len,
-                          void *xchangedata)
+  
+  /*
+    uint32_t inNum, LindArg *inArgs, void** xchangedata
+    ALLOC_RET_DESC(); 
 
+        int retval = 0;                                                                             \
+    UNREFERENCED_PARAMETER(nap);                                                                \
+    UNREFERENCED_PARAMETER(inNum);                                                              \
+    UNREFERENCED_PARAMETER(inArgs);                                                             \
+    *xchangedata = malloc(sizeof(struct NaClHostDesc));                                         \
+    if (!*xchangedata) {                                                                        \
+      retval = -NACL_ABI_ENOMEM;                                                                \
+      goto cleanup;                                                                             \
+    }                                                                                           \
+cleanup:                                                                                        \
+    return retval
+
+
+    
+    int iserror, int *code, char *data, int len, void *xchangedata
     BUILD_AND_RETURN_NACL_DESC();
+
+    int retval = 0;                                                                             \
+    struct NaClHostDesc  *hd;                                                                   \
+    int userfd = -1;                                                                            \
+    UNREFERENCED_PARAMETER(iserror);                                                            \
+    UNREFERENCED_PARAMETER(data);                                                               \
+    UNREFERENCED_PARAMETER(len);                                                                \
+    hd = (struct NaClHostDesc*)xchangedata;                                                     \
+    NaClHostDescCtor(hd, *code, NACL_ABI_O_RDWR);                                               \
+    hd->cageid = nap->cage_id;                                                                  \
+    *code = NaClSetAvail(nap, ((struct NaClDesc *) NaClDescIoDescMake(hd)));                    \
+    userfd = NextFd(nap->cage_id);                                                              \
+    fd_cage_table[nap->cage_id][userfd] = *code;                                                \
+    *code = userfd;                                                                             \
+    */
+  return retval;
 }

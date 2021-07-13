@@ -270,6 +270,7 @@ SYSCALL_LIST = [
     ('NACL_sys_epoll_ctl', 'NaClEpollCtlPreprocess', ['struct NaClApp *nap', 'uint32_t inNum', 'LindArg *inArgs', 'void** xchangedata']),
     ('NACL_sys_epoll_wait', 'NaClEpollWaitPreprocess', ['struct NaClApp *nap', 'uint32_t inNum', 'LindArg *inArgs', 'void** xchangedata']),
     ('NACL_sys_epoll_wait2', 'NaClEpollWaitPostprocess', ['struct NaClApp *nap', 'int iserror', 'int *code', 'char *data', 'int len', 'void *xchangedata']),
+    
     ('NACL_sys_socket', 'NaClSysSocket', ['struct NaClApp *nap', 'uint32_t inNum', 'LindArg *inArgs', 'void** xchangedata']),
     #EXPERIMENTAL
     ]
